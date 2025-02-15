@@ -24,7 +24,7 @@ const RootLayout = ({
     <html lang="en">
       <body className={`${pretend.variable}`}>
         <Header />
-        <div className="w-full max-w-screen-xl mt-header">{children}</div>
+        <div className="w-full flex justify-center mt-header">{children}</div>
       </body>
     </html>
   )
