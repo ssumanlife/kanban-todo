@@ -3,7 +3,9 @@ import { useRef } from 'react'
 import useKanbanStore, { KanbanModel } from '@/stores/kanban-store'
 import { useDrag, useDrop } from 'react-dnd'
 import { HiOutlineBars3 } from 'react-icons/hi2'
+import { MdOutlineDelete } from 'react-icons/md'
 
+import Button from './button'
 import Input from './input'
 
 interface Props extends KanbanModel {
@@ -19,7 +21,7 @@ const KanbanCard = ({
   handleKanbanDragDrop,
 }: Props) => {
   const kanbanRef = useRef(null)
-  const { updateKanban } = useKanbanStore((state) => state)
+  const { updateKanban, deleteKanban } = useKanbanStore((state) => state)
 
   const [, drop] = useDrop({
     accept: 'kanban',
@@ -45,7 +47,7 @@ const KanbanCard = ({
   return (
     <li ref={kanbanRef} className="flex justify-between items-center gap-4">
       <HiOutlineBars3 size={32} />
-      <div className="w-full p-8 bg-gray-600 rounded-lg flex flex-col gap-2">
+      <article className="w-full p-8 bg-gray-600 rounded-lg flex flex-col gap-2">
         <div className="flex justify-between gap-60">
           <Input
             value={title}
@@ -54,7 +56,9 @@ const KanbanCard = ({
             maxLength={24}
             handleValue={(value: string) => updateKanban(kanbanId, 'title', value)}
           />
-          <span className="text-sm text-gray-200 text-nowrap">{createdAt}</span>
+          <Button variant="icon" onClick={() => deleteKanban(kanbanId)}>
+            <MdOutlineDelete fill="#a7a7a7" size={24} />
+          </Button>
         </div>
         <Input
           value={description}
@@ -62,7 +66,10 @@ const KanbanCard = ({
           handleValue={(value: string) => updateKanban(kanbanId, 'description', value)}
         />
         <div className="flex flex-wrap gap-4">{/* todo list 추가하기 */}</div>
-      </div>
+        <div className="flex justify-end">
+          <span className="text-sm text-gray-200 text-nowrap">{createdAt}</span>
+        </div>
+      </article>
     </li>
   )
 }

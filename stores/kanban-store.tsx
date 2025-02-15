@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -10,7 +11,7 @@ export interface TodoModel {
 }
 
 export interface KanbanModel {
-  kanbanId: number
+  kanbanId: string
   title: string
   description: string
   createdAt: string
@@ -25,7 +26,8 @@ interface StateModel {
 
 interface ActionsModel {
   addKanban: () => void
-  updateKanban: (id: number, key: 'title' | 'description', value: string) => void
+  updateKanban: (id: string, key: 'title' | 'description', value: string) => void
+  deleteKanban: (id: string) => void
   setDraggedKanbanList: (list: KanbanModel[]) => void
   resetKanban: () => void
 }
@@ -33,7 +35,7 @@ interface ActionsModel {
 const initialState: StateModel = {
   kanbanList: [
     {
-      kanbanId: 1,
+      kanbanId: uuidv4(),
       title: '',
       description: '',
       createdAt: new Date()
@@ -59,7 +61,7 @@ const useKanbanStore = create(
         set((state) => ({
           kanbanList: [
             {
-              kanbanId: state.kanbanList.length + 1,
+              kanbanId: uuidv4(),
               title: '',
               description: '',
               createdAt: new Date()
@@ -78,11 +80,17 @@ const useKanbanStore = create(
         }))
       },
 
-      updateKanban: (id: number, key: 'title' | 'description', value: string) => {
+      updateKanban: (id: string, key: 'title' | 'description', value: string) => {
         set((state) => ({
           kanbanList: state.kanbanList.map((kanban) =>
             kanban.kanbanId === id ? { ...kanban, [key]: value } : kanban,
           ),
+        }))
+      },
+
+      deleteKanban: (id: string) => {
+        set((state) => ({
+          kanbanList: state.kanbanList.filter((kanban) => kanban.kanbanId !== id),
         }))
       },
 
@@ -95,6 +103,7 @@ const useKanbanStore = create(
           ...initialState,
           addKanban: state.addKanban,
           updateKanban: state.updateKanban,
+          deleteKanban: state.deleteKanban,
           setDraggedKanbanList: state.setDraggedKanbanList,
           resetKanban: state.resetKanban,
         }))
