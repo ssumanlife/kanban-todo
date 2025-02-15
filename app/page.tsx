@@ -1,8 +1,12 @@
+import KanbanContainer from '@/components/layout/kanban-container'
+import SideBar from '@/components/layout/sidebar'
+
 const Home = () => {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      todo
-    </div>
+    <main className="flex w-[1280px] gap-16 pt-14 justify-center">
+      <KanbanContainer />
+      <SideBar />
+    </main>
   )
 }
 export default Home
