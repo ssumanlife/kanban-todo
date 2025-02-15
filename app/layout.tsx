@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 
+import Header from '@/components/layout/header'
+
 import './globals.css'
 
 const pretend = localFont({
@@ -20,7 +22,10 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="en">
-      <body className={`${pretend.variable}`}>{children}</body>
+      <body className={`${pretend.variable}`}>
+        <Header />
+        <div className="w-full max-w-screen-xl mt-header">{children}</div>
+      </body>
     </html>
   )
 }
