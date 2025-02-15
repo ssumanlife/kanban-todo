@@ -5,6 +5,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        primary: '#ec6126',
         black: '#0a0a0a',
         white: '#ffffff',
         red: '#FF4040',
@@ -19,6 +20,9 @@ export default {
       },
       fontFamily: {
         font: ['var(--font-pretend)', 'sans-serif'],
+      },
+      spacing: {
+        header: '80px',
       },
     },
   },
