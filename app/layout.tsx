@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 
+import Footer from '@/components/layout/footer'
 import Header from '@/components/layout/header'
 
 import './globals.css'
@@ -24,7 +25,8 @@ const RootLayout = ({
     <html lang="en" suppressHydrationWarning={true}>
       <body className={`${pretend.variable}`}>
         <Header />
-        <div className="w-full flex justify-center mt-header">{children}</div>
+        <div className="w-full flex justify-center my-header">{children}</div>
+        <Footer />
       </body>
     </html>
   )
