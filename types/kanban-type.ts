@@ -1,10 +1,10 @@
-export type TodoStatusType = 'todoList' | 'inProgressList' | 'doneList'
+export type TaskStatusType = 'todoList' | 'inProgressList' | 'doneList'
 
-export type TodoLabelType = 'To do' | 'In Progress' | 'Done'
+export type TaskLabelType = 'To do' | 'In Progress' | 'Done'
 
-export interface TodoModel {
+export interface TaskModel {
   kanbanId: string
-  todoId: string
+  taskId: string
   description: string
 }
 
@@ -13,7 +13,7 @@ export interface KanbanModel {
   title: string
   description: string
   createdAt: string
-  todoList: TodoModel[]
-  inProgressList: TodoModel[]
-  doneList: TodoModel[]
+  todoList: TaskModel[]
+  inProgressList: TaskModel[]
+  doneList: TaskModel[]
 }

@@ -1,8 +1,8 @@
-import { TodoLabelType, TodoStatusType } from '@/types/kanban-type'
+import { TaskLabelType, TaskStatusType } from '@/types/kanban-type'
 
 interface Props {
-  id: TodoStatusType
-  label: TodoLabelType
+  id: TaskStatusType
+  label: TaskLabelType
 }
 
 const Label = ({ id, label }: Props) => {

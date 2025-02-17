@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 
 import { ITEM_TYPE } from '@/constants/drag-and-drop'
 import useKanbanStore from '@/stores/kanban-store'
-import { TodoModel, TodoStatusType } from '@/types/kanban-type'
+import { TaskModel, TaskStatusType } from '@/types/kanban-type'
 import { handleMoveTask } from '@/utills/move-Item'
 import { useDrag, useDrop } from 'react-dnd'
 import { HiMiniSquares2X2 } from 'react-icons/hi2'
@@ -12,21 +12,21 @@ import Button from './button'
 import Input from './input'
 
 interface Props {
-  todo: TodoModel | null
+  task: TaskModel | null
   index: number
   kanbanId: string
-  status: TodoStatusType
+  status: TaskStatusType
 }
 
-const Task = ({ todo, index, kanbanId, status }: Props) => {
-  const todoRef = useRef<HTMLLIElement>(null)
+const Task = ({ task, index, kanbanId, status }: Props) => {
+  const taskRef = useRef<HTMLLIElement>(null)
   const kanbanList = useKanbanStore((state) => state.kanbanList)
-  const { updateTodo, deleteTodo, addTodo, setDraggedKanbanList } = useKanbanStore((state) => state)
+  const { updateTask, deleteTask, addTask, setDraggedKanbanList } = useKanbanStore((state) => state)
 
   const [, drop] = useDrop({
     accept: ITEM_TYPE.TASK,
-    drop: (item: { index: number; kanbanId: string; status: TodoStatusType; type: string }) => {
-      if (!todoRef.current || item.type !== ITEM_TYPE.TASK) return
+    drop: (item: { index: number; kanbanId: string; status: TaskStatusType; type: string }) => {
+      if (!taskRef.current || item.type !== ITEM_TYPE.TASK) return
 
       let newKanbanList = [...kanbanList]
       if ((item.index !== index || item.status !== status) && item.kanbanId === kanbanId) {
@@ -63,21 +63,21 @@ const Task = ({ todo, index, kanbanId, status }: Props) => {
     }),
   })
 
-  drag(drop(todoRef))
+  drag(drop(taskRef))
 
   return (
-    <li ref={todoRef} id="todo" className="flex gap-1 items-center min-h-8">
-      {todo && (
+    <li ref={taskRef} className="flex gap-1 items-center min-h-8">
+      {task && (
         <>
           <HiMiniSquares2X2 fill="#a7a7a7" size={20} className="cursor-pointer" />
           <Input
             variant="small"
-            value={todo.description}
+            value={task.description}
             placeholder="할 일을 입력하세요."
-            handleValue={(value) => updateTodo(kanbanId, status, todo.todoId, value)}
-            handleEnter={() => addTodo(kanbanId, status)}
+            handleValue={(value) => updateTask(kanbanId, status, task.taskId, value)}
+            handleEnter={() => addTask(kanbanId, status)}
           />
-          <Button variant="icon" onClick={() => deleteTodo(kanbanId, todo.todoId, status)}>
+          <Button variant="icon" onClick={() => deleteTask(kanbanId, task.taskId, status)}>
             <IoClose fill="#a7a7a7" size={20} />
           </Button>
         </>
