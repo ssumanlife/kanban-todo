@@ -21,7 +21,7 @@ const RootLayout = ({
   children: React.ReactNode
 }>) => {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <body className={`${pretend.variable}`}>
         <Header />
         <div className="w-full flex justify-center mt-header">{children}</div>
