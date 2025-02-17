@@ -8,6 +8,9 @@ export default {
         primary: '#ec6126',
         black: '#0a0a0a',
         white: '#ffffff',
+        pink: '#f63b3b',
+        purple: '#f63bc7',
+        blue: '#3b64f6',
         red: '#FF4040',
         gray: {
           100: '#ececec',

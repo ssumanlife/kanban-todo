@@ -1,25 +1,33 @@
-import React, { ComponentProps } from 'react'
+'use client'
+
+import { ComponentProps } from 'react'
 
 interface Props extends ComponentProps<'input'> {
-  value?: string
   variant?: 'small' | 'medium' | 'large'
   handleValue: (value: string) => void
+  handleEnter?: () => void
 }
 
-const Input = ({ variant = 'medium', value, placeholder, handleValue, maxLength }: Props) => {
+const Input = ({ variant = 'medium', value, handleValue, handleEnter, ...props }: Props) => {
   const size = {
     small: 'text-sm',
     medium: '',
     large: 'text-xl font-semibold',
   }
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.nativeEvent.isComposing) return
+    if (e.key === 'Enter' && handleEnter) handleEnter()
+  }
+
   return (
     <input
       type="text"
       className={`bg-transparent w-full ${size[variant]} placeholder-gray-200 focus:border focus: border-primary rounded-md p-1`}
       value={value}
-      maxLength={maxLength}
-      placeholder={placeholder}
       onChange={(e) => handleValue(e.target.value)}
+      onKeyDown={onKeyDown}
+      {...props}
     />
   )
 }

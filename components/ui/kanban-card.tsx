@@ -1,42 +1,44 @@
-import { useRef } from 'react'
+import React, { useRef } from 'react'
 
-import useKanbanStore, { KanbanModel } from '@/stores/kanban-store'
+import { ITEM_TYPE } from '@/constants/drag-and-drop'
+import useKanbanStore from '@/stores/kanban-store'
+import { KanbanModel, TodoModel, TodoStatusType } from '@/types/kanban-type'
+import { handleMoveKanban } from '@/utills/move-Item'
 import { useDrag, useDrop } from 'react-dnd'
 import { HiOutlineBars3 } from 'react-icons/hi2'
 import { MdOutlineDelete } from 'react-icons/md'
 
 import Button from './button'
 import Input from './input'
+import Task from './task'
+import TaskCard from './task-card'
 
-interface Props extends KanbanModel {
+interface Props {
   index: number
-  handleKanbanDragDrop: (prev: number, next: number) => void
+  kanban: KanbanModel
 }
-const KanbanCard = ({
-  index,
-  kanbanId,
-  title,
-  description,
-  createdAt,
-  handleKanbanDragDrop,
-}: Props) => {
-  const kanbanRef = useRef(null)
-  const { updateKanban, deleteKanban } = useKanbanStore((state) => state)
+
+const KanbanCard = ({ index, kanban }: Props) => {
+  const kanbanRef = useRef<HTMLLIElement>(null)
+  const kanbanList = useKanbanStore((state) => state.kanbanList)
+  const { updateKanban, deleteKanban, setDraggedKanbanList } = useKanbanStore((state) => state)
+  const { kanbanId, title, description, createdAt, todoList, inProgressList, doneList } = kanban
 
   const [, drop] = useDrop({
-    accept: 'kanban',
-    hover: (item: { index: number }) => {
-      if (!kanbanRef.current) return
+    accept: ITEM_TYPE.KANBAN,
+    drop: (item: { index: number; type: string }) => {
+      if (!kanbanRef.current || item.type !== ITEM_TYPE.KANBAN) return
       if (item.index !== index) {
-        handleKanbanDragDrop(item.index, index)
+        const newKanbanList = handleMoveKanban(kanbanList, item.index, index)
+        if (newKanbanList) setDraggedKanbanList(newKanbanList)
         item.index = index
       }
     },
   })
 
   const [, drag] = useDrag({
-    type: 'kanban',
-    item: { index },
+    type: ITEM_TYPE.KANBAN,
+    item: { index, type: ITEM_TYPE.KANBAN },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -44,10 +46,21 @@ const KanbanCard = ({
 
   drag(drop(kanbanRef))
 
+  const returnTodoGroup = (list: TodoModel[], status: TodoStatusType) => {
+    return list.length !== 0 ? (
+      list.map((todo, index) => (
+        <Task key={todo.todoId} todo={todo} index={index} kanbanId={kanbanId} status={status} />
+      ))
+    ) : (
+      <Task todo={null} index={index} kanbanId={kanbanId} status={status} />
+    )
+  }
+
   return (
-    <li ref={kanbanRef} className="flex justify-between items-center gap-4">
-      <HiOutlineBars3 size={32} />
-      <article className="w-full p-8 bg-gray-600 rounded-lg flex flex-col gap-2">
+    <li ref={kanbanRef} id="kanban" className="flex justify-between items-center gap-4">
+      <HiOutlineBars3 size={32} className="cursor-pointer" />
+
+      <article className="w-full p-8 bg-gray-600 rounded-lg flex flex-col gap-3">
         <div className="flex justify-between gap-60">
           <Input
             value={title}
@@ -60,18 +73,28 @@ const KanbanCard = ({
             <MdOutlineDelete fill="#a7a7a7" size={24} />
           </Button>
         </div>
+
         <Input
           value={description}
           placeholder="내용을 입력하세요."
+          maxLength={70}
           handleValue={(value: string) => updateKanban(kanbanId, 'description', value)}
         />
-        <div className="flex flex-wrap gap-4">{/* todo list 추가하기 */}</div>
-        <div className="flex justify-end">
-          <span className="text-sm text-gray-200 text-nowrap">{createdAt}</span>
+
+        <div className="grid grid-cols-3 gap-4 ">
+          {Object.entries({ todoList, inProgressList, doneList }).map((list) => (
+            <TaskCard key={list[0]} status={list[0] as TodoStatusType} kanbanId={kanbanId}>
+              <ul className="flex flex-col gap-2 my-2">
+                {returnTodoGroup(list[1], list[0] as TodoStatusType)}
+              </ul>
+            </TaskCard>
+          ))}
         </div>
+
+        <span className="flex justify-end text-sm text-gray-200 text-nowrap">{createdAt}</span>
       </article>
     </li>
   )
 }
 
-export default KanbanCard
+export default React.memo(KanbanCard)

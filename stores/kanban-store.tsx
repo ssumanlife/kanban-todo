@@ -1,24 +1,7 @@
+import { KanbanModel, TodoStatusType } from '@/types/kanban-type'
 import { v4 as uuidv4 } from 'uuid'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-
-export interface TodoModel {
-  kanbanId: number
-  todoId: number
-  description: string
-  createdAt: Date
-  status: 'todo' | 'inProgress' | 'done'
-}
-
-export interface KanbanModel {
-  kanbanId: string
-  title: string
-  description: string
-  createdAt: string
-  todoList: TodoModel[]
-  inProgressList: TodoModel[]
-  doneList: TodoModel[]
-}
 
 interface StateModel {
   kanbanList: KanbanModel[]
@@ -29,6 +12,9 @@ interface ActionsModel {
   updateKanban: (id: string, key: 'title' | 'description', value: string) => void
   deleteKanban: (id: string) => void
   setDraggedKanbanList: (list: KanbanModel[]) => void
+  addTodo: (kanbanId: string, status: TodoStatusType) => void
+  updateTodo: (kanbanId: string, status: TodoStatusType, todoId: string, value: string) => void
+  deleteTodo: (kanbanId: string, todoId: string, status: TodoStatusType) => void
   resetKanban: () => void
 }
 
@@ -98,6 +84,47 @@ const useKanbanStore = create(
         set(() => ({ kanbanList: list }))
       },
 
+      addTodo: (kanbanId: string, status: TodoStatusType) => {
+        set((state) => ({
+          kanbanList: state.kanbanList.map((kanban) =>
+            kanban.kanbanId === kanbanId
+              ? {
+                  ...kanban,
+                  [status]: [...kanban[status], { kanbanId, todoId: uuidv4(), description: '' }],
+                }
+              : kanban,
+          ),
+        }))
+      },
+
+      updateTodo: (kanbanId: string, status: TodoStatusType, todoId: string, value: string) => {
+        set((state) => ({
+          kanbanList: state.kanbanList.map((kanban) =>
+            kanban.kanbanId === kanbanId
+              ? {
+                  ...kanban,
+                  [status]: kanban[status].map((todo) =>
+                    todo.todoId === todoId ? { ...todo, description: value } : todo,
+                  ),
+                }
+              : kanban,
+          ),
+        }))
+      },
+
+      deleteTodo: (kanbanId: string, todoId: string, status: TodoStatusType) => {
+        set((state) => ({
+          kanbanList: state.kanbanList.map((kanban) =>
+            kanban.kanbanId === kanbanId
+              ? {
+                  ...kanban,
+                  [status]: kanban[status].filter((todo) => todo.todoId !== todoId),
+                }
+              : kanban,
+          ),
+        }))
+      },
+
       resetKanban: () => {
         set((state) => ({
           ...initialState,
@@ -105,6 +132,9 @@ const useKanbanStore = create(
           updateKanban: state.updateKanban,
           deleteKanban: state.deleteKanban,
           setDraggedKanbanList: state.setDraggedKanbanList,
+          addTodo: state.addTodo,
+          updateTodo: state.updateTodo,
+          deleteTodo: state.deleteTodo,
           resetKanban: state.resetKanban,
         }))
       },
