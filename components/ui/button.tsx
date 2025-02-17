@@ -1,10 +1,12 @@
+'use client'
+
 import { ComponentProps } from 'react'
 
 interface Props extends ComponentProps<'button'> {
   variant?: 'icon' | 'basic'
 }
 
-const Button = ({ variant = 'basic', children, onClick }: Props) => {
+const Button = ({ variant = 'basic', children, onClick, className, ...props }: Props) => {
   const buttonStyle = {
     icon: 'hover:scale-110 transition-all delay-120 ease-in-out',
     basic:
@@ -13,8 +15,9 @@ const Button = ({ variant = 'basic', children, onClick }: Props) => {
 
   return (
     <button
-      className={`${buttonStyle[variant]} flex justify-center items-center `}
+      className={`${buttonStyle[variant]} ${className} flex justify-center items-center `}
       onClick={onClick}
+      {...props}
     >
       {children}
     </button>
