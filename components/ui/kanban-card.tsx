@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 
 import { ITEM_TYPE } from '@/constants/drag-and-drop'
 import useKanbanStore from '@/stores/kanban-store'
-import { KanbanModel, TodoModel, TodoStatusType } from '@/types/kanban-type'
+import { KanbanModel, TaskModel, TaskStatusType } from '@/types/kanban-type'
 import { handleMoveKanban } from '@/utills/move-Item'
 import { useDrag, useDrop } from 'react-dnd'
 import { HiOutlineBars3 } from 'react-icons/hi2'
@@ -46,13 +46,13 @@ const KanbanCard = ({ index, kanban }: Props) => {
 
   drag(drop(kanbanRef))
 
-  const returnTodoGroup = (list: TodoModel[], status: TodoStatusType) => {
+  const returnTaskGroup = (list: TaskModel[], status: TaskStatusType) => {
     return list.length !== 0 ? (
-      list.map((todo, index) => (
-        <Task key={todo.todoId} todo={todo} index={index} kanbanId={kanbanId} status={status} />
+      list.map((task, index) => (
+        <Task key={task.taskId} task={task} index={index} kanbanId={kanbanId} status={status} />
       ))
     ) : (
-      <Task todo={null} index={index} kanbanId={kanbanId} status={status} />
+      <Task task={null} index={index} kanbanId={kanbanId} status={status} />
     )
   }
 
@@ -83,9 +83,9 @@ const KanbanCard = ({ index, kanban }: Props) => {
 
         <div className="grid grid-cols-3 gap-4 ">
           {Object.entries({ todoList, inProgressList, doneList }).map((list) => (
-            <TaskCard key={list[0]} status={list[0] as TodoStatusType} kanbanId={kanbanId}>
+            <TaskCard key={list[0]} status={list[0] as TaskStatusType} kanbanId={kanbanId}>
               <ul className="flex flex-col gap-2 my-2">
-                {returnTodoGroup(list[1], list[0] as TodoStatusType)}
+                {returnTaskGroup(list[1], list[0] as TaskStatusType)}
               </ul>
             </TaskCard>
           ))}

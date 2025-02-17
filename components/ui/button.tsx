@@ -17,6 +17,7 @@ const Button = ({ variant = 'basic', children, onClick, className, ...props }: P
     <button
       className={`${buttonStyle[variant]} ${className} flex justify-center items-center `}
       onClick={onClick}
+      type="button"
       {...props}
     >
       {children}

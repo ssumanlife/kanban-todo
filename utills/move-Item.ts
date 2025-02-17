@@ -1,4 +1,4 @@
-import { KanbanModel, TodoStatusType } from '@/types/kanban-type'
+import { KanbanModel, TaskStatusType } from '@/types/kanban-type'
 
 // 칸반 이동 시에 실행되는 핸들러
 export const handleMoveKanban = (kanbanList: KanbanModel[], prev: number, next: number) => {
@@ -16,8 +16,8 @@ export const handleMoveTask = (
   kanbanList: KanbanModel[],
   prev: number,
   next: number,
-  status: TodoStatusType,
-  nextStatus: TodoStatusType,
+  status: TaskStatusType,
+  nextStatus: TaskStatusType,
   kanbanId: string,
   nextKanbanId?: string,
 ) => {
@@ -26,7 +26,7 @@ export const handleMoveTask = (
   if (!currentKanban) return
 
   const draggedItem = currentKanban[status].splice(prev, 1)[0]
-  const includesItem = currentKanban[status].find((todo) => todo.todoId === draggedItem.todoId)
+  const includesItem = currentKanban[status].find((task) => task.taskId === draggedItem.taskId)
   if (!draggedItem || includesItem) return
 
   // 다른 칸반의 status로 이동
