@@ -21,7 +21,9 @@ interface Props {
 const Task = ({ task, index, kanbanId, status }: Props) => {
   const taskRef = useRef<HTMLLIElement>(null)
   const kanbanList = useKanbanStore((state) => state.kanbanList)
-  const { updateTask, deleteTask, addTask, setDraggedKanbanList } = useKanbanStore((state) => state)
+  const { updateTask, deleteTask, addTask, setDraggedKanbanList } = useKanbanStore(
+    (state) => state.actions,
+  )
 
   // 'task' type인 Drag and Drop 설정, drop 시 핸들러 실행
   const [, drop] = useDrop({

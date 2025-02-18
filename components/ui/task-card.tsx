@@ -18,7 +18,7 @@ const TASK_LABEL: { [key in TaskStatusType]: TaskLabelType } = {
 }
 
 const TaskCard = ({ status, kanbanId, children }: Props) => {
-  const addTask = useKanbanStore((state) => state.addTask)
+  const addTask = useKanbanStore((state) => state.actions.addTask)
 
   return (
     <div className="bg-gray-500 rounded-md p-[20px] flex flex-col gap-2">
