@@ -1,9 +1,11 @@
 import dynamic from 'next/dynamic'
 
 import SideBar from '@/components/layout/sidebar'
+import Skeleton from '@/components/ui/skeleton'
 
 const KanbanContainer = dynamic(() => import('@/components/layout/kanban-container'), {
   ssr: false,
+  loading: () => <Skeleton />,
 })
 
 const Home = () => {
