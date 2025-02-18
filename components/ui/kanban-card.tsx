@@ -77,7 +77,7 @@ const KanbanCard = ({ index, kanban }: Props) => {
             maxLength={24}
             handleValue={(value: string) => updateKanban(kanbanId, 'title', value)}
           />
-          <Button variant="icon" onClick={() => deleteKanban(kanbanId)}>
+          <Button variant="icon" onClick={() => deleteKanban(kanbanId)} aria-label="칸반 삭제">
             <MdOutlineDelete fill="#a7a7a7" size={24} />
           </Button>
         </div>
@@ -93,7 +93,7 @@ const KanbanCard = ({ index, kanban }: Props) => {
           {/* TaskCard와 Task를 KanbanCard에서 렌더링하여 자식 컴포넌트에 필요한 Props 각각 전달  */}
           {Object.entries({ todoList, inProgressList, doneList }).map((list) => (
             <TaskCard key={list[0]} status={list[0] as TaskStatusType} kanbanId={kanbanId}>
-              <ul className="flex flex-col gap-2 my-2">
+              <ul className="flex flex-col gap-2 my-2 h-full">
                 {returnTaskGroup(list[1], list[0] as TaskStatusType)}
               </ul>
             </TaskCard>

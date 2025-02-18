@@ -22,17 +22,13 @@ const TaskCard = ({ status, kanbanId, children }: Props) => {
 
   return (
     <div className="bg-gray-500 rounded-md p-[20px] flex flex-col gap-2">
-      <div>
+      <div className="flex justify-between">
         <Label id={status} label={TASK_LABEL[status]} />
+        <Button variant="icon" onClick={() => addTask(kanbanId, status)} aria-label="할 일 추가">
+          <HiOutlinePlusSm fill="#a7a7a7" size={20} />
+        </Button>
       </div>
       {children}
-      <Button
-        variant="icon"
-        className="text-sm flex justify-center gap-2"
-        onClick={() => addTask(kanbanId, status)}
-      >
-        <HiOutlinePlusSm fill="#a7a7a7" size={20} />할 일
-      </Button>
     </div>
   )
 }
