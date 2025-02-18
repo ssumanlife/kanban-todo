@@ -8,8 +8,8 @@ const KanbanContainer = dynamic(() => import('@/components/layout/kanban-contain
 
 const Home = () => {
   return (
-    <main className="flex w-[1280px] gap-16 pt-14 justify-center">
-      <section className="min-w-[1000px] min-h-fit">
+    <main className="flex max-w-screen-xl gap-16 pt-14 justify-between">
+      <section className="min-w-section_w min-h-fit">
         <KanbanContainer />
       </section>
       <SideBar />

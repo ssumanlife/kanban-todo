@@ -25,7 +25,8 @@ export default {
         font: ['var(--font-pretend)', 'sans-serif'],
       },
       spacing: {
-        header: '80px',
+        header_h: '80px',
+        section_w: '1000px',
       },
     },
   },
