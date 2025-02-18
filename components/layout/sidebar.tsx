@@ -5,7 +5,7 @@ import useKanbanStore from '@/stores/kanban-store'
 import Button from '../ui/button'
 
 const SideBar = () => {
-  const { addKanban, resetKanban } = useKanbanStore((state) => state)
+  const { addKanban, resetKanban } = useKanbanStore((state) => state.actions)
 
   return (
     <aside className="relative h-full w-[100px]">

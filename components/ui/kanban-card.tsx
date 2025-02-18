@@ -21,7 +21,9 @@ interface Props {
 const KanbanCard = ({ index, kanban }: Props) => {
   const kanbanRef = useRef<HTMLLIElement>(null)
   const kanbanList = useKanbanStore((state) => state.kanbanList)
-  const { updateKanban, deleteKanban, setDraggedKanbanList } = useKanbanStore((state) => state)
+  const { updateKanban, deleteKanban, setDraggedKanbanList } = useKanbanStore(
+    (state) => state.actions,
+  )
   const { kanbanId, title, description, createdAt, todoList, inProgressList, doneList } = kanban
 
   // 'kanban' type인 Drag and Drop 설정, drop 시 핸들러 실행
