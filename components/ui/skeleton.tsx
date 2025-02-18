@@ -7,9 +7,11 @@ const Skeleton = () => {
   }
 
   return (
-    <div className="w-section_w h-[304px] flex justify-between items-center gap-4">
-      <div className={`${commonStyle.wrapper} w-[32px] h-[32px]`}></div>
-      <div className={`${commonStyle.wrapper} w-full h-full p-8 flex flex-col gap-3`}>
+    <div
+      className={`${commonStyle.wrapper} w-full h-[304px] p-6 flex justify-between items-center gap-4`}
+    >
+      <div className={`${commonStyle.item} w-[32px] h-[32px]`}></div>
+      <div className={`${commonStyle.wrapper} w-full h-full p-2 flex flex-col gap-3`}>
         <div className={`${commonStyle.item} w-[220px] h-[36px]`}></div>
         <div className={`${commonStyle.item} w-[160px] h-[32px]`}></div>
         <div className="grid grid-cols-3 gap-4">

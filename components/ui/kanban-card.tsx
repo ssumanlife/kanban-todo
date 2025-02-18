@@ -65,17 +65,21 @@ const KanbanCard = ({ index, kanban }: Props) => {
   }
 
   return (
-    <li ref={kanbanRef} id="kanban" className="flex justify-between items-center gap-4">
+    <li
+      ref={kanbanRef}
+      className="flex justify-between md:p-6 p-4 bg-gray-600 rounded-lg items-center gap-2 md:gap-4"
+    >
       <HiOutlineBars3 size={32} className="cursor-pointer" />
 
-      <article className="w-full p-8 bg-gray-600 rounded-lg flex flex-col gap-3">
-        <div className="flex justify-between gap-60">
+      <article className="w-full p-2 flex flex-col gap-3">
+        <div className="w-full flex justify-between">
           <Input
             value={title}
             placeholder="제목을 입력하세요."
             variant="large"
             maxLength={24}
             handleValue={(value: string) => updateKanban(kanbanId, 'title', value)}
+            className="md:max-w-[420px]"
           />
           <Button variant="icon" onClick={() => deleteKanban(kanbanId)} aria-label="칸반 삭제">
             <MdOutlineDelete fill="#a7a7a7" size={24} />
@@ -89,7 +93,7 @@ const KanbanCard = ({ index, kanban }: Props) => {
           handleValue={(value: string) => updateKanban(kanbanId, 'description', value)}
         />
 
-        <div className="grid grid-cols-3 gap-4 ">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
           {/* TaskCard와 Task를 KanbanCard에서 렌더링하여 자식 컴포넌트에 필요한 Props 각각 전달  */}
           {Object.entries({ todoList, inProgressList, doneList }).map((list) => (
             <TaskCard key={list[0]} status={list[0] as TaskStatusType} kanbanId={kanbanId}>

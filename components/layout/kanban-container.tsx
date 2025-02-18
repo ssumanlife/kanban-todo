@@ -11,7 +11,7 @@ const KanbanContainer = () => {
   const kanbanList = useKanbanStore((state) => state.kanbanList)
 
   return (
-    <ul className="w-section_w flex flex-col gap-10">
+    <ul className="flex flex-col gap-10">
       <DndProvider backend={HTML5Backend}>
         {kanbanList.map((kanban, index) => (
           <KanbanCard key={kanban.kanbanId} index={index} kanban={kanban} />
