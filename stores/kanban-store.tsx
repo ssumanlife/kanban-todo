@@ -43,6 +43,7 @@ const useKanbanStore = create(
     (set) => ({
       ...initialState,
 
+      // 칸반 추가
       addKanban: () => {
         set((state) => ({
           kanbanList: [
@@ -66,6 +67,7 @@ const useKanbanStore = create(
         }))
       },
 
+      // 칸반 title, description 업데이트
       updateKanban: (id: string, key: 'title' | 'description', value: string) => {
         set((state) => ({
           kanbanList: state.kanbanList.map((kanban) =>
@@ -74,16 +76,19 @@ const useKanbanStore = create(
         }))
       },
 
+      // 칸반 삭제
       deleteKanban: (id: string) => {
         set((state) => ({
           kanbanList: state.kanbanList.filter((kanban) => kanban.kanbanId !== id),
         }))
       },
 
+      // Drag and Drop 이후 칸반 상태 업데이트
       setDraggedKanbanList: (list: KanbanModel[]) => {
         set(() => ({ kanbanList: list }))
       },
 
+      // 타스크 추가
       addTask: (kanbanId: string, status: TaskStatusType) => {
         set((state) => ({
           kanbanList: state.kanbanList.map((kanban) =>
@@ -97,6 +102,7 @@ const useKanbanStore = create(
         }))
       },
 
+      // 타스트 description 업데이트
       updateTask: (kanbanId: string, status: TaskStatusType, taskId: string, value: string) => {
         set((state) => ({
           kanbanList: state.kanbanList.map((kanban) =>
@@ -112,6 +118,7 @@ const useKanbanStore = create(
         }))
       },
 
+      // 타스트 삭제
       deleteTask: (kanbanId: string, taskId: string, status: TaskStatusType) => {
         set((state) => ({
           kanbanList: state.kanbanList.map((kanban) =>
@@ -125,6 +132,7 @@ const useKanbanStore = create(
         }))
       },
 
+      // 상태 초기화
       resetKanban: () => {
         set((state) => ({
           ...initialState,

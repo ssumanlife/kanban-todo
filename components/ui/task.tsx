@@ -23,6 +23,7 @@ const Task = ({ task, index, kanbanId, status }: Props) => {
   const kanbanList = useKanbanStore((state) => state.kanbanList)
   const { updateTask, deleteTask, addTask, setDraggedKanbanList } = useKanbanStore((state) => state)
 
+  // 'task' type인 Drag and Drop 설정, drop 시 핸들러 실행
   const [, drop] = useDrop({
     accept: ITEM_TYPE.TASK,
     drop: (item: { index: number; kanbanId: string; status: TaskStatusType; type: string }) => {
