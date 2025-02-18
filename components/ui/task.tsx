@@ -77,11 +77,16 @@ const Task = ({ task, index, kanbanId, status }: Props) => {
             variant="small"
             value={task.description}
             placeholder="할 일을 입력하세요."
+            maxLength={16}
             handleValue={(value) => updateTask(kanbanId, status, task.taskId, value)}
             handleEnter={() => addTask(kanbanId, status)}
           />
-          <Button variant="icon" onClick={() => deleteTask(kanbanId, task.taskId, status)}>
-            <IoClose fill="#a7a7a7" size={20} />
+          <Button
+            variant="icon"
+            onClick={() => deleteTask(kanbanId, task.taskId, status)}
+            aria-label="할 일 삭제"
+          >
+            <IoClose fill="#a7a7a7" size={18} />
           </Button>
         </>
       )}
