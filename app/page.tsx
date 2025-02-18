@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 
-import SideBar from '@/components/layout/sidebar'
+import KanbanSection from '@/components/layout/kanban-section'
 import Skeleton from '@/components/ui/skeleton'
 
 const KanbanContainer = dynamic(() => import('@/components/layout/kanban-container'), {
@@ -10,11 +10,10 @@ const KanbanContainer = dynamic(() => import('@/components/layout/kanban-contain
 
 const Home = () => {
   return (
-    <main className="flex max-w-screen-xl gap-16 pt-14 justify-between">
-      <section className="min-w-section_w min-h-fit">
+    <main className="max-w-section_w my-header_h mx-auto gap-4 pt-4 overflow-visible ">
+      <KanbanSection>
         <KanbanContainer />
-      </section>
-      <SideBar />
+      </KanbanSection>
     </main>
   )
 }

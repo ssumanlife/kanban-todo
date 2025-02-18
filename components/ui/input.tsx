@@ -8,7 +8,14 @@ interface Props extends ComponentProps<'input'> {
   handleEnter?: () => void
 }
 
-const Input = ({ variant = 'medium', value, handleValue, handleEnter, ...props }: Props) => {
+const Input = ({
+  variant = 'medium',
+  className,
+  value,
+  handleValue,
+  handleEnter,
+  ...props
+}: Props) => {
   const size = {
     small: 'text-sm',
     medium: '',
@@ -23,7 +30,7 @@ const Input = ({ variant = 'medium', value, handleValue, handleEnter, ...props }
   return (
     <input
       type="text"
-      className={`bg-transparent w-full ${size[variant]} placeholder-gray-200 focus:border focus: border-primary rounded-md p-1`}
+      className={` ${size[variant]} ${className} bg-transparent w-full placeholder-gray-200 focus:border focus: border-primary rounded-md p-1`}
       value={value}
       onChange={(e) => handleValue(e.target.value)}
       onKeyDown={onKeyDown}

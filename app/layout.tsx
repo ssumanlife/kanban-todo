@@ -26,7 +26,7 @@ const RootLayout = ({
     <html lang="en" suppressHydrationWarning={true}>
       <body className={`${pretend.variable}`}>
         <Header />
-        <div className="w-full flex justify-center my-header_h">{children}</div>
+        {children}
         <Footer />
       </body>
     </html>
